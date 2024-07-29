@@ -1,0 +1,10 @@
+Package: codeathonshiny
+Type: Package
+Title: visualize gene expression data
+Version: 0.1.0
+Author: Who wrote it
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: visualize gene expression data
+License: MIT
+Encoding: UTF-8
+LazyData: true

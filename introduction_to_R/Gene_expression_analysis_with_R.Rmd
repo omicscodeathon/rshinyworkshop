@@ -1,0 +1,65 @@
+---
+title: "R_for_bioinformatics_3"
+author: "HibaBenAribi"
+date: "2024-04-16"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r }
+#if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+#BiocManager::install("DESeq2")
+
+# load the library
+library(DESeq2)
+#install.packages("readr")
+library(readr)
+```
+# read gene count data = RNA sequencing data dhowing how much the genes are expressed in all samples
+```{r }
+
+countdata <- read_csv("source data/Count_Data.csv") %>%
+  #remove empty cells (NA)
+  distinct(gene, .keep_all = TRUE) %>%
+  na.omit() 
+# use first colum as row names
+row.names(countdata) <- countdata$gene
+countdata <- countdata[, -1]
+
+```
+# read metadata
+# the metadata file define which samples are controls and which are patients ( study groups)
+
+```{r }
+
+metadata <- read_csv("source data/metadata.txt")
+# use first column as row names
+row.names(metadata ) <- metadata$sample
+metadata  <- metadata[, -1]
+print(metadata)
+```
+
+# perform gene expression analysis
+
+```{r }
+dds <- DESeqDataSetFromMatrix(countData = countdata,
+                                  colData = metadata,
+                                  design = ~groupe)
+    keep <- rowSums(counts(dds)) >= 10
+    dds <- dds[keep,]
+    dds <- DESeq(dds)
+
+```
+
+
+```{r }
+    expression_data  <-  results(dds)
+    expression <- as.data.frame(expression_data)
+    expression
+```

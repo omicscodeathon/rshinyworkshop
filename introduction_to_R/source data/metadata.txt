@@ -1,0 +1,7 @@
+sample,groupe
+SRR12878708,control
+SRR12878713,control
+SRR12878714,control
+SRR12878717,patient
+SRR12878718,patient
+SRR12878719,patient
